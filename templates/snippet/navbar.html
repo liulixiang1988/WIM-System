@@ -1,0 +1,33 @@
+<div class="row">
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#collapse">
+                <span class="sr-only">Toggle Navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                    </button>
+            <a class="navbar-brand" href="/">铜陵有色</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/">首页</a></li>
+                <li><a href="/">明细查询</a></li>
+                <li><a href="/">汇总查询</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if user.is_authenticated %}
+                    <li class="navbar-text">欢迎，</li>
+                    <li><a href="/">{{ user.username }}</a></li>
+                    <li><a href="/admin">后台管理</a></li>
+                    <li><a href="/logout">退出</a></li>
+                {% else %}
+                    <li><a href="/register">注册</a></li>
+                    <li><a href="/login">登录</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+</div>
