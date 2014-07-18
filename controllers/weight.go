@@ -32,21 +32,21 @@ func (this *WeightController) DailyStatistics() {
 
 func (this *WeightController) WorkShift() {
 	var msg string
-	dayStr := this.GetString(":day")
+	dayStr := this.GetString("day")
 	day, _ := time.Parse("2006-01-02", dayStr)
-	workshift, _ := this.GetInt(":workshift")
+	workshift, _ := this.GetInt("workshift")
 	results, err := datalineinfo.WorkShift(day, int8(workshift))
 	if err != nil {
-		msg = "err"
+		msg = "请选择日期与班次"
 	}
-	this.Data["json"] = map[string]interface{}{
-		"msg":     msg,
-		"results": &results,
-	}
-	this.ServeJson()
-	// pongo2.Render(this.Ctx, "weight/workshift.html", pongo2.Context{
-	// 	"title":   "班次明细查询",
+	// this.Data["json"] = map[string]interface{}{
 	// 	"msg":     msg,
-	// 	"results": results,
-	// })
+	// 	"results": &results,
+	// }
+	// this.ServeJson()
+	pongo2.Render(this.Ctx, "weight/workshift.html", pongo2.Context{
+		"title":   "班次明细查询",
+		"msg":     msg,
+		"results": results,
+	})
 }
