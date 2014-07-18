@@ -1,9 +1,9 @@
 package datalineinfo
 
 import (
-	"time"
-
+	"fmt"
 	"github.com/liulixiang1988/WIM-System/models"
+	"time"
 )
 
 type Tb_weigh_datalineinfo struct {
@@ -80,4 +80,22 @@ func Last() (*Tb_weigh_datalineinfo, error) {
 	last := &Tb_weigh_datalineinfo{}
 	_, err := models.X.Sql("select top 1 * from tb_weigh_datalineinfo where operatebit<>2 order by id desc").Get(last)
 	return last, err
+}
+
+func WorkShift(day time.Time, workshift int8) ([]*Tb_weigh_datalineinfo, error) {
+	results := make([]*Tb_weigh_datalineinfo, 0)
+	var beginTime, endTime time.Time
+	if workshift == 0 { //早
+		beginTime = time.Date(day.Year(), day.Month(), day.Day(), 0, 0, 0, 0, time.UTC)
+		endTime = time.Date(day.Year(), day.Month(), day.Day(), 8, 0, 0, 0, time.UTC)
+	} else if workshift == 1 { //中
+		beginTime = time.Date(day.Year(), day.Month(), day.Day(), 8, 0, 0, 0, time.UTC)
+		endTime = time.Date(day.Year(), day.Month(), day.Day(), 16, 0, 0, 0, time.UTC)
+	} else { //晚
+		beginTime = time.Date(day.Year(), day.Month(), day.Day(), 16, 0, 0, 0, time.UTC)
+		endTime = time.Date(day.Year(), day.Month(), day.Day()+1, 0, 0, 0, 0, time.UTC)
+	}
+	fmt.Println(beginTime, endTime)
+	err := models.X.Where("GrossWeighTime between ? and ?", beginTime, endTime).Find(&results)
+	return results, err
 }

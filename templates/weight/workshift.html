@@ -5,15 +5,15 @@
             <h1 class="panel-title"><span class="glyphicon glyphicon-pencil"></span> <span class="text-primary">查询结果</span><span class="sep"></h1>
         </div>
         <div class="panel-body entry-content">
-              {% if msg !=nil %}
+              {% if msg %}
                 <div class="alert alert-warning">{{msg}}</div>
               {% endif %}
-            {% if datalineinfo != nil %}
+            {% if results != nil %}
                 <div>
-                    {{datalineinfo.Id}}
+                    <p>有结果</p>
                 </div>
             {% else %}
-                <div>无对应的结果</div>
+                <p>无对应的结果</p>
             {% endif %}
         </div>
       </div>

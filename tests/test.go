@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/liulixiang1988/WIM-System/models/datalineinfo"
+	"time"
 )
 
 func main() {
@@ -13,4 +14,7 @@ func main() {
 	}
 	fmt.Println(last.Id)
 
+	day, _ := time.Parse("2006-01-02", "2014-07-09")
+	results, _ := datalineinfo.WorkShift(day, 1)
+	fmt.Println("result长度", len(results))
 }
