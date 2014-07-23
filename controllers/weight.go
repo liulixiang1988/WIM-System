@@ -2,6 +2,8 @@ package controllers
 
 import (
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/validation"
+	"github.com/liulixiang1988/WIM-System/helper"
 	"github.com/liulixiang1988/WIM-System/models/datalineinfo"
 	"github.com/oal/beego-pongo2"
 	"time"
@@ -30,23 +32,44 @@ func (this *WeightController) DailyStatistics() {
 	})
 }
 
+//按班次查询
 func (this *WeightController) WorkShift() {
-	var msg string
+	data := pongo2.Context{"title": "班次明细查询"}
+	var msg []string = make([]string, 0)
+
 	dayStr := this.GetString("day")
+	if dayStr == "" {
+		dayStr = time.Now().Format("2006-01-02")
+	}
+	data["day"] = dayStr
+
+	workshift, err := this.GetInt("workshift")
+	if err != nil {
+		workshift = 1
+	}
+	data["workshift"] = workshift
+
+	valid := validation.Validation{}
+	valid.Match(dayStr, helper.DatePatten, "day")
+	valid.Required(workshift, "workshift")
+	if valid.HasErrors() {
+		for _, err := range valid.Errors {
+			msg = append(msg, err.String())
+		}
+		data["msg"] = msg
+		pongo2.Render(this.Ctx, "weight/workshift.html", data)
+		return
+	}
+
 	day, _ := time.Parse("2006-01-02", dayStr)
-	workshift, _ := this.GetInt("workshift")
+
 	results, err := datalineinfo.WorkShift(day, int8(workshift))
 	if err != nil {
-		msg = "请选择日期与班次"
+		msg = append(msg, "请选择日期与班次")
+		msg = append(msg, err.Error())
+		data["msg"] = msg
 	}
-	// this.Data["json"] = map[string]interface{}{
-	// 	"msg":     msg,
-	// 	"results": &results,
-	// }
-	// this.ServeJson()
-	pongo2.Render(this.Ctx, "weight/workshift.html", pongo2.Context{
-		"title":   "班次明细查询",
-		"msg":     msg,
-		"results": results,
-	})
+	data["results"] = results
+
+	pongo2.Render(this.Ctx, "weight/workshift.html", data)
 }

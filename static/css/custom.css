@@ -12,3 +12,19 @@ body{
 	color: #FFF;
 	text-align: center;
 }
+
+.padded{
+	padding: 15px;
+}
+
+.align-center{
+	text-align: center;
+}
+
+table.align-center th {
+	text-align: center;
+}
+
+table.align-center td {
+	text-align: center;
+}

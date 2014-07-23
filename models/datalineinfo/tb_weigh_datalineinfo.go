@@ -1,7 +1,6 @@
 package datalineinfo
 
 import (
-	"fmt"
 	"github.com/liulixiang1988/WIM-System/models"
 	"time"
 )
@@ -95,7 +94,6 @@ func WorkShift(day time.Time, workshift int8) ([]*Tb_weigh_datalineinfo, error) 
 		beginTime = time.Date(day.Year(), day.Month(), day.Day(), 16, 0, 0, 0, time.UTC)
 		endTime = time.Date(day.Year(), day.Month(), day.Day()+1, 0, 0, 0, 0, time.UTC)
 	}
-	fmt.Println(beginTime, endTime)
 	err := models.X.Where("GrossWeighTime between ? and ?", beginTime, endTime).Find(&results)
 	return results, err
 }
