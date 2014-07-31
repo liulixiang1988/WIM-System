@@ -14,7 +14,7 @@ type WeightController struct {
 }
 
 func (this *WeightController) Get() {
-	last, err := datalineinfo.Last()
+	last, err := datalineinfo.Last(1)
 	var msg string
 	if err != nil {
 		msg = "error"
@@ -49,9 +49,16 @@ func (this *WeightController) WorkShift() {
 	}
 	data["workshift"] = workshift
 
+	workarea, err := this.GetInt("workarea")
+	if err != nil {
+		workarea = 1
+	}
+	data["workarea"] = workarea
+
 	valid := validation.Validation{}
 	valid.Match(dayStr, helper.DatePatten, "day")
 	valid.Required(workshift, "workshift")
+	valid.Required(workarea, "workarea")
 	if valid.HasErrors() {
 		for _, err := range valid.Errors {
 			msg = append(msg, err.String())
@@ -63,7 +70,7 @@ func (this *WeightController) WorkShift() {
 
 	day, _ := time.Parse("2006-01-02", dayStr)
 
-	results, err := datalineinfo.WorkShift(day, int8(workshift))
+	results, err := datalineinfo.WorkShift(day, int8(workshift), workarea)
 	if err != nil {
 		msg = append(msg, "请选择日期与班次")
 		msg = append(msg, err.Error())
@@ -72,4 +79,8 @@ func (this *WeightController) WorkShift() {
 	data["results"] = results
 
 	pongo2.Render(this.Ctx, "weight/workshift.html", data)
+}
+
+func (this *WeightController) GetDetails() {
+
 }

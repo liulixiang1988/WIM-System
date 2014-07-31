@@ -27,11 +27,20 @@
                                 </div>
                               </div>
                               <div class="form-group">
-                                <label class="sr-only" for="exampleInputPassword2">班次</label>
+                                <label class="sr-only" for="workshift">班次</label>
                                 <select class="form-control" id="workshift" name="workshift">
                                     <option value=0>早班</option>
                                     <option value=1>中班</option>
                                     <option value=2>晚班</option>
+                                    <option value=3>全部</option>
+                                </select>
+                              </div>
+                              <div class="form-group">
+                                <label class="sr-only" for="workarea">班次</label>
+                                <select class="form-control" id="workarea" name="workarea">
+                                    <option value=2>-40</option>
+                                    <option value=1>-240</option>
+                                    <option value=0>-360</option>
                                 </select>
                               </div>
                               <button type="submit" class="btn btn-default">查询</button>
@@ -105,6 +114,9 @@
 $(function(){
     $("#workshift option").each(function(){
         this.selected = (this.value == {{workshift}});
+    });
+    $("#workarea option").each(function(){
+        this.selected = (this.value == {{workarea}});
     });
 });
 </script>

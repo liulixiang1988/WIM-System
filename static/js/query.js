@@ -39,8 +39,8 @@ $(function () {
                                 sum_gross += data[i][1]*1;
                                 sum_tare += data[i][2]*1;
                                 sum_suttle += data[i][3]*1;
-                                sum_gross_count += data[i][5]*1;
-                                sum_tare_count += data[i][4]*1;
+                                sum_gross_count += data[i][4]*1;
+                                sum_tare_count += data[i][5]*1;
                             };
                             $('#sum_gross').text(sum_gross.toFixed(2));
                             $('#sum_tare').text(sum_tare.toFixed(2));

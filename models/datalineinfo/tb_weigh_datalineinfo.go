@@ -75,13 +75,13 @@ type Tb_weigh_datalineinfo struct {
 	Attribute15              string
 }
 
-func Last() (*Tb_weigh_datalineinfo, error) {
+func Last(workarea int64) (*Tb_weigh_datalineinfo, error) {
 	last := &Tb_weigh_datalineinfo{}
-	_, err := models.X.Sql("select top 1 * from tb_weigh_datalineinfo where operatebit<>2 order by id desc").Get(last)
+	_, err := models.GetOrm(workarea).Sql("select top 1 * from tb_weigh_datalineinfo where operatebit<>2 order by id desc").Get(last)
 	return last, err
 }
 
-func WorkShift(day time.Time, workshift int8) ([]*Tb_weigh_datalineinfo, error) {
+func WorkShift(day time.Time, workshift int8, workarea int64) ([]*Tb_weigh_datalineinfo, error) {
 	results := make([]*Tb_weigh_datalineinfo, 0)
 	var beginTime, endTime time.Time
 	if workshift == 0 { //早
@@ -90,10 +90,14 @@ func WorkShift(day time.Time, workshift int8) ([]*Tb_weigh_datalineinfo, error) 
 	} else if workshift == 1 { //中
 		beginTime = time.Date(day.Year(), day.Month(), day.Day(), 8, 0, 0, 0, time.UTC)
 		endTime = time.Date(day.Year(), day.Month(), day.Day(), 16, 0, 0, 0, time.UTC)
-	} else { //晚
+	} else if workshift == 2 { //晚
 		beginTime = time.Date(day.Year(), day.Month(), day.Day(), 16, 0, 0, 0, time.UTC)
 		endTime = time.Date(day.Year(), day.Month(), day.Day()+1, 0, 0, 0, 0, time.UTC)
+	} else {
+		beginTime = time.Date(day.Year(), day.Month(), day.Day(), 0, 0, 0, 0, time.UTC)
+		endTime = time.Date(day.Year(), day.Month(), day.Day()+1, 0, 0, 0, 0, time.UTC)
 	}
-	err := models.X.Where("GrossWeighTime between ? and ?", beginTime, endTime).Find(&results)
+
+	err := models.GetOrm(workarea).Where("GrossWeighTime between ? and ?", beginTime, endTime).Asc("Id").Find(&results)
 	return results, err
 }
