@@ -5,6 +5,7 @@ import (
 	"github.com/astaxie/beego/validation"
 	"github.com/liulixiang1988/WIM-System/helper"
 	"github.com/liulixiang1988/WIM-System/models/datalineinfo"
+	"github.com/liulixiang1988/WIM-System/models/detail"
 	"github.com/oal/beego-pongo2"
 	"time"
 )
@@ -82,5 +83,25 @@ func (this *WeightController) WorkShift() {
 }
 
 func (this *WeightController) GetDetails() {
+	data := pongo2.Context{"title": "批次明细"}
+	var msg []string = make([]string, 0)
+	batchNumber, err := this.GetInt("batch")
+	if err != nil {
+		batchNumber = 0
+	}
+	data["batch"] = batchNumber
 
+	workarea, err := this.GetInt("workarea")
+	if err != nil {
+		workarea = 1
+	}
+	data["workarea"] = workarea
+
+	results, err := detail.GetDetails(workarea, batchNumber)
+	if err != nil {
+		msg = append(msg, err.Error())
+		data["msg"] = msg
+	}
+	data["results"] = results
+	pongo2.Render(this.Ctx, "weight/details.html", data)
 }

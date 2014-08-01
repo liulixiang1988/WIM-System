@@ -1,4 +1,4 @@
-package models
+package detail
 
 import (
 	"github.com/liulixiang1988/WIM-System/models"
@@ -21,8 +21,8 @@ type Tb_weigh_datalineinfo_detail struct {
 	Attribute5  string
 }
 
-func GetDetails(workarea int64, batchNumber int64) ([]*Tb_weigh_datalineinfo_detail, err) {
-	results := make([]*Tb_weigh_datalineinfo, 0)
+func GetDetails(workarea int64, batchNumber int64) ([]*Tb_weigh_datalineinfo_detail, error) {
+	results := make([]*Tb_weigh_datalineinfo_detail, 0)
 	err := models.GetOrm(workarea).Where("BatchNumber = ? or BatchNumber = ?", batchNumber, batchNumber+1).Asc("Id").Find(&results)
 	return results, err
 }
