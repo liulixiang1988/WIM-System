@@ -105,3 +105,9 @@ func (this *WeightController) GetDetails() {
 	data["results"] = results
 	pongo2.Render(this.Ctx, "weight/details.html", data)
 }
+
+func (this *WeightController) GetStatics() {
+	data := pongo2.Context{"title": "时间范围统计"}
+	var msg []string = make([]string, 0)
+
+}
