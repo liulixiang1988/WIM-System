@@ -101,3 +101,18 @@ func WorkShift(day time.Time, workshift int8, workarea int64) ([]*Tb_weigh_datal
 	err := models.GetOrm(workarea).Where("GrossWeighTime between ? and ?", beginTime, endTime).Asc("Id").Find(&results)
 	return results, err
 }
+
+func Statistics(begin, end time.Time, workarea int64) ([]*Tb_weigh_datalineinfo, error) {
+	results := make([]*Tb_weigh_datalineinfo, 0)
+	err := models.GetOrm(workarea).Sql(`
+		select sum(GrossWeight) as GrossWeight, 
+		sum(TareWeight) as TareWeight, 
+		sum(Suttle) as Suttle,
+		sum(convert(int, isnull(Attribute3, '0'))) as Attribute3,
+		sum(convert(int, isnull(Attribute4, '0'))) as Attribute4 
+		from tb_weigh_datalineinfo
+		where GrossWeighTime between ? and ?
+		`,
+		begin, end).Find(&results)
+	return results, err
+}

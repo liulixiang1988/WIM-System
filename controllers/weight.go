@@ -110,4 +110,45 @@ func (this *WeightController) GetStatics() {
 	data := pongo2.Context{"title": "时间范围统计"}
 	var msg []string = make([]string, 0)
 
+	beginDate := this.GetString("begin_date")
+	if beginDate == "" {
+		beginDate = time.Now().Format("2006-01-02")
+	}
+	data["begin_date"] = beginDate
+
+	endDate := this.GetString("end_date")
+	if endDate == "" {
+		endDate = time.Now().Format("2006-01-02")
+	}
+	data["end_date"] = endDate
+
+	workarea, err := this.GetInt("workarea")
+	if err != nil {
+		workarea = 1
+	}
+	data["workarea"] = workarea
+
+	valid := validation.Validation{}
+	valid.Match(beginDate, helper.DatePatten, "begin_date")
+	valid.Match(endDate, helper.DatePatten, "end_date")
+	valid.Required(workarea, "workarea")
+	if valid.HasErrors() {
+		for _, err := range valid.Errors {
+			msg = append(msg, err.String())
+		}
+		data["msg"] = msg
+		pongo2.Render(this.Ctx, "weight/statistics.html", data)
+		return
+	}
+
+	begin, _ := time.Parse("2006-01-02", beginDate)
+	end, _ := time.Parse("2006-01-02", endDate)
+
+	results, err := datalineinfo.Statistics(begin, end, workarea)
+	if err != nil {
+		msg = append(msg, err.Error())
+		data["msg"] = msg
+	}
+	data["results"] = results
+	pongo2.Render(this.Ctx, "weight/statistics.html", data)
 }
