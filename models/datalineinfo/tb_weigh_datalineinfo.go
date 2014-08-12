@@ -109,7 +109,8 @@ func Statistics(begin, end time.Time, workarea int64) ([]*Tb_weigh_datalineinfo,
 		sum(TareWeight) as TareWeight, 
 		sum(Suttle) as Suttle,
 		sum(convert(int, isnull(Attribute3, '0'))) as Attribute3,
-		sum(convert(int, isnull(Attribute4, '0'))) as Attribute4 
+		sum(convert(int, isnull(Attribute4, '0'))) as Attribute4,
+		count(1) as Attribute5 
 		from tb_weigh_datalineinfo
 		where GrossWeighTime between ? and ?
 		`,

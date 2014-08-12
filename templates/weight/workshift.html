@@ -98,10 +98,10 @@
                                     </tfoot>
                                 </table>
                             </div><!--end of -->
-                        </div><!--end of row-->
                     {% else %}
-                        <p>无对应的结果</p>
+                        <div class="col-lg-12"><p>无对应的结果</p></div>
                     {% endif %}
+                    </div><!--end of row-->
                 </div><!--end of panel-->
               </div>
         </div>
@@ -116,9 +116,6 @@
 <script src="/static/js/query.js"></script>
 <script>
 $(function(){
-    $("#workshift option").each(function(){
-        this.selected = (this.value == {{workshift}});
-    });
     $("#workarea option").each(function(){
         this.selected = (this.value == {{workarea}});
     });

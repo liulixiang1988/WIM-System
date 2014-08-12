@@ -14,12 +14,15 @@
 </head>
 
 <body>
-<div class="container">{% include "snippet/navbar.html" %}</div>
-{% block container_before %}{% endblock %}
-<div class="container">
-{% block body_content %}
-{% endblock %}
-</div>
+<!-- Wrap all page content here -->
+<div id="wrap">
+    <div class="container">{% include "snippet/navbar.html" %}</div>
+    {% block container_before %}{% endblock %}
+    <div class="container">
+    {% block body_content %}
+    {% endblock %}
+    </div>
+</div><!--end of wrap-->
 {% block footer %}
     {% include "snippet/footer.html" %}
 {% endblock %}

@@ -3,7 +3,10 @@ $(function () {
                         pickTime: false,
                         language: 'zh-cn'
                     });
-
+                    $('#datetimepicker2').datetimepicker({
+                        pickTime: false,
+                        language: 'zh-cn'
+                    });
                     $('#table').dataTable({
                         "lengthMenu": [ [20, 25, 50, -1], [20, 25, 50, "全部"] ],
                         "pageLength": 20,

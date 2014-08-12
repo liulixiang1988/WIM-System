@@ -23,7 +23,7 @@
 	                        </div>
 	                      </div>
 	                      <div class="form-group">
-	                        <div class="input-group date" id='datetimepicker' data-date-format="YYYY-MM-DD">
+	                        <div class="input-group date" id='datetimepicker2' data-date-format="YYYY-MM-DD">
 	                          <input class="form-control" type="text" placeholder="结束日期" name="end_date" id="end_date" value={{end_date}}>
 	                          <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
 	                        </div>
@@ -56,6 +56,7 @@
 						                        <th>毛重</th>
 						                        <th>皮重</th>
 						                        <th>净重</th>
+						                        <th>车次</th>
 						                        <th>毛重车数</th>
 						                        <th>皮重车数</th>
 						                    </tr>
@@ -67,6 +68,7 @@
 						                        <td>{{result.GrossWeight | floatformat:2}}</td>
 						                        <td>{{result.TareWeight | floatformat:2}}</td>
 						                        <td>{{result.Suttle | floatformat:2}}</td>
+						                        <td>{{result.Attribute5}}</td>
 						                        <td>{{result.Attribute3}}</td>
 						                        <td>{{result.Attribute4}}</td>
 						                    </tr>
@@ -74,10 +76,11 @@
 						                </tbody>
 						            </table>
 						        </div><!--end of -->
-						    </div><!--end of row-->
+						    
 						{% else %}
-						    <p>无对应的结果</p>
+							<div class="col-lg-12"><p>无对应的结果</p></div>
 						{% endif %}
+						</div><!--end of row-->
 		            </div><!--end of panel-->
 		          </div>
 		    </div>
