@@ -46,13 +46,13 @@ func (this *WeightController) WorkShift() {
 
 	workshift, err := this.GetInt("workshift")
 	if err != nil {
-		workshift = 1
+		workshift = 0
 	}
 	data["workshift"] = workshift
 
 	workarea, err := this.GetInt("workarea")
 	if err != nil {
-		workarea = 1
+		workarea = 0
 	}
 	data["workarea"] = workarea
 

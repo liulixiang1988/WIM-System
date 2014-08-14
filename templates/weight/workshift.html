@@ -119,6 +119,9 @@ $(function(){
     $("#workarea option").each(function(){
         this.selected = (this.value == {{workarea}});
     });
+    $("#workshift option").each(function(){
+        this.selected = (this.value == {{workshift}});
+    });
 });
 </script>
 {% endblock %}
