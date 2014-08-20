@@ -142,8 +142,7 @@ func (this *WeightController) GetStatics() {
 	}
 
 	begin, _ := time.Parse("2006-01-02", beginDate)
-	end, _ := time.Parse("2006-01-02", endDate)
-
+	end, _ := time.Parse("2006-01-02 15:04:05", endDate+" 23:59:59")
 	results, err := datalineinfo.Statistics(begin, end, workarea)
 	if err != nil {
 		msg = append(msg, err.Error())
